@@ -1,5 +1,5 @@
 
-TARGET := lox.out
+TARGET := rt.out
 SRC_DIR := ./src
 BUILD_DIR := ./build
 OBJ_DIR := $(BUILD_DIR)/obj
