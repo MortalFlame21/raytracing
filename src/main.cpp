@@ -4,7 +4,18 @@
 #include "Ray.h"
 #include "Vec3.h"
 
+bool hit_sphere(const Vec3& center, double radius, const Ray& r) {
+    Vec3 oc{center - r.origin()};
+    auto a{dot(r.direction(), r.direction())}; // a = d*d
+    auto b{-2.0 * dot(r.direction(), oc)};     // b = -2 * (C - Q)
+    auto c{dot(oc, oc) - radius * radius};     // c = (C - Q) * (C - Q) - r^2
+    auto discriminant{b * b - 4 * a * c};      // b^2 - 4ac
+    return discriminant >= 0;                  // 1 or 2 roots
+}
+
 Color ray_color(const Ray& r) {
+    if (hit_sphere(Vec3(0, 0, -1), 0.5, r))
+        return Color(1, 0, 0);
     auto unit_direction{unit_vector(r.direction())};
     auto a{0.5 * (unit_direction.y() + 1.0)};
     return (1.0 - a) * Color(1.0, 1.0, 1.0) + a * Color(0.5, 0.7, 1.0);
