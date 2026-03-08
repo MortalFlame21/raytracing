@@ -18,6 +18,7 @@ public:
     double length_squared() const;
     Vec3 cross(const Vec3& o) const;
     Vec3 operator+(const Vec3& o) const;
+    Vec3 operator-() const;
     Vec3 operator-(const Vec3& o) const;
     Vec3 operator*(const Vec3& o) const;
     Vec3 operator*(double t) const;
