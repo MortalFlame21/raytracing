@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "Interval.h"
 #include "Ray.h"
 
 class HitRecord {
@@ -17,16 +18,14 @@ public:
 class Hittable {
 public:
     virtual ~Hittable() = default;
-    virtual bool hit(const Ray& r, double ray_t_min, double ray_t_max,
-                     HitRecord& rec) const = 0;
+    virtual bool hit(const Ray& r, const Interval& ray_t, HitRecord& rec) const = 0;
 };
 
 class Sphere : public Hittable {
 public:
     Sphere();
     Sphere(const Vec3& center, double radius);
-    bool hit(const Ray& r, double ray_t_min, double ray_t_max,
-             HitRecord& rec) const override;
+    bool hit(const Ray& r, const Interval& ray_t, HitRecord& rec) const override;
 
 private:
     Vec3 m_center;
@@ -40,8 +39,7 @@ public:
 
     void clear();
     void push_back(std::shared_ptr<Hittable> object);
-    bool hit(const Ray& r, double ray_t_min, double ray_t_max,
-             HitRecord& rec) const override;
+    bool hit(const Ray& r, const Interval& ray_t, HitRecord& rec) const override;
 
 private:
     std::vector<std::shared_ptr<Hittable>> m_objects;
