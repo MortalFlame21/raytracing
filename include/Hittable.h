@@ -33,7 +33,7 @@ private:
     double m_radius;
 };
 
-class HittableList : Hittable {
+class HittableList : public Hittable {
 public:
     HittableList();
     HittableList(std::vector<std::shared_ptr<Hittable>> objects);
@@ -46,4 +46,3 @@ public:
 private:
     std::vector<std::shared_ptr<Hittable>> m_objects;
 };
-;
