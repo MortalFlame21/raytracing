@@ -20,7 +20,7 @@ double hit_sphere(const Vec3& center, double radius, const Ray& r) {
 
 Color ray_color(const Ray& r, const Hittable& world) {
     HitRecord rec{};
-    if (world.hit(r, 0, infinity, rec))
+    if (world.hit(r, Interval(0, infinity), rec))
         return 0.5 * (rec.m_normal + Color(1, 1, 1));
 
     auto unit_direction{unit_vector(r.direction())};
