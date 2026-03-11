@@ -2,8 +2,8 @@
 
 #include <iostream>
 
-#include "Vec3.h"
 #include "Interval.h"
+#include "Vec3.h"
 
 using Color = Vec3;
 
