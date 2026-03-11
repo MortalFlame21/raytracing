@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "Color.h"
+#include "Interval.h"
 #include "Util.h"
 
 Camera::Camera() : Camera(1.0, 100) {}
@@ -40,7 +41,7 @@ void Camera::initialise() {
     Vec3 viewport_v(0, -viewport_h, 0);
 
     m_pixel_delta_u = viewport_u / m_img_w;
-    m_pixel_delta_v = viewport_u / m_img_h;
+    m_pixel_delta_v = viewport_v / m_img_h;
 
     auto viewport_upper_left{m_center - Vec3(0, 0, focal_length) - viewport_u / 2 -
                              viewport_v / 2};
