@@ -55,7 +55,8 @@ void Camera::initialise() {
 Color Camera::ray_color(const Ray& r, const Hittable& world) const {
     HitRecord rec{};
     if (world.hit(r, Interval(0, infinity), rec)) {
-        return 0.5 * (rec.m_normal + Color(1, 1, 1));
+        auto direction{random_on_hemisphere(rec.m_normal)};
+        return 0.5 * ray_color(Ray(rec.m_point, direction), world);
     }
 
     auto unit_direction{unit_vector(r.direction())};
