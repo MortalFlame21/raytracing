@@ -29,6 +29,11 @@ double Vec3::length() const { return std::sqrt(length_squared()); }
 
 double Vec3::length_squared() const { return x() * x() + y() * y() + z() * z(); }
 
+bool Vec3::near_zero() const {
+    constexpr auto s{1e-8};
+    return (std::fabs(x()) < s) && (std::fabs(y()) < s) && (std::fabs(z()) < s);
+}
+
 Vec3 Vec3::cross(const Vec3& o) const {
     return Vec3(y() * o.z() - z() * o.y(), z() * o.x() - x() * o.z(),
                 x() * o.y() - y() * o.x());

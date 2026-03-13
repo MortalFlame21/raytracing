@@ -20,6 +20,7 @@ public:
     double z() const;
     double length() const;
     double length_squared() const;
+    bool near_zero() const;
     Vec3 cross(const Vec3& o) const;
     Vec3 operator+(const Vec3& o) const;
     Vec3 operator-() const;
@@ -34,6 +35,9 @@ public:
 private:
     std::array<double, 3> m_e;
 };
+
+std::ostream& operator<<(std::ostream& out, const Vec3& v);
+Vec3 operator*(double t, const Vec3& o);
 
 inline double dot(const Vec3& u, const Vec3& v) {
     return u.x() * v.x() + u.y() * v.y() + u.z() * v.z();
@@ -58,5 +62,4 @@ inline Vec3 random_on_hemisphere(const Vec3& normal) {
     return (dot(on_unit_sphere, normal) > 0.0) ? on_unit_sphere : -on_unit_sphere;
 }
 
-std::ostream& operator<<(std::ostream& out, const Vec3& v);
-Vec3 operator*(double t, const Vec3& o);
+inline Vec3 reflect(const Vec3& v, const Vec3& n) { return v - 2 * dot(v, n) * n; }
