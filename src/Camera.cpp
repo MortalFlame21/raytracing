@@ -1,6 +1,7 @@
 #include "Camera.h"
 #include "Color.h"
 #include "Interval.h"
+#include "Material.h"
 #include "Util.h"
 
 Camera::Camera() : Camera(1.0, 100, 10, 10) {}
@@ -59,8 +60,11 @@ Color Camera::ray_color(const Ray& r, int depth, const Hittable& world) const {
 
     HitRecord rec{};
     if (world.hit(r, Interval(0.001, infinity), rec)) {
-        auto direction{rec.m_normal + random_unit_vector()};
-        return 0.5 * ray_color(Ray(rec.m_point, direction), depth - 1, world);
+        Ray scattered{};
+        Color attenuation{};
+        return (rec.m_material->scatter(r, rec, attenuation, scattered))
+                   ? attenuation * ray_color(scattered, depth - 1, world)
+                   : Color();
     }
 
     auto unit_direction{unit_vector(r.direction())};
