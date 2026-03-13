@@ -49,10 +49,19 @@ bool Dielectric::scatter(const Ray& r, const HitRecord& rec, Color& attenuation,
 
     auto cos_theta{std::fmin(dot(-unit_dir, rec.m_normal), 1.0)};
     auto sin_theta{std::sqrt(1.0 - cos_theta * cos_theta)};
-    Vec3 dir{(ri * sin_theta > 1.0) ? reflect(unit_dir, rec.m_normal)
-                                    : refract(unit_dir, rec.m_normal, ri)};
+    // can't refract or reflectance > rand_double
+    Vec3 dir{((ri * sin_theta > 1.0) || reflectance(cos_theta, ri) > gen_random_double())
+                 ? reflect(unit_dir, rec.m_normal)
+                 : refract(unit_dir, rec.m_normal, ri)};
 
     scattered = Ray(rec.m_point, dir);
     return true;
+}
+
+double Dielectric::reflectance(double cosine, double refraction_index) {
+    // Schlick approximation
+    auto r0{(1 - refraction_index) / (1 + refraction_index)};
+    r0 = r0 * r0;
+    return r0 + (1 - r0) * std::pow(1 - cosine, 5);
 }
 // End Dielectric

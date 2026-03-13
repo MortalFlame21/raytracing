@@ -45,5 +45,6 @@ public:
                  Ray& scattered) const override;
 
 private:
+    static double reflectance(double cosine, double refraction_index);
     double m_refraction_index;
 };
