@@ -6,12 +6,15 @@
 #include "Interval.h"
 #include "Ray.h"
 
+class Material;
+
 class HitRecord {
 public:
     void set_face_normal(const Ray& r, const Vec3& outward_normal);
 
     Vec3 m_point;
     Vec3 m_normal;
+    std::shared_ptr<Material> m_material;
     double m_time;
 };
 
@@ -30,6 +33,7 @@ public:
 private:
     Vec3 m_center;
     double m_radius;
+    std::shared_ptr<Material> m_material;
 };
 
 class HittableList : public Hittable {

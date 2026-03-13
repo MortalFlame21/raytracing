@@ -39,6 +39,7 @@ bool Sphere::hit(const Ray& r, const Interval& ray_t, HitRecord& rec) const {
     rec.m_point = r.at(rec.m_time);
     Vec3 outward_normal{(rec.m_point - m_center) / m_radius};
     rec.set_face_normal(r, outward_normal);
+    rec.m_material = m_material;
 
     return true;
 }
