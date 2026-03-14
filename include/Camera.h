@@ -6,12 +6,14 @@
 class Camera {
 public:
     Camera();
-    Camera(double aspect_ratio, int img_h, int samples_per_pixel, int max_depth);
+    Camera(double aspect_ratio, int img_h, int samples_per_pixel, int max_depth,
+           double vertical_fov);
     void render(const Hittable& world);
 
 private:
     double m_aspect_ratio;
     double m_pixel_samples_scale;
+    double m_vertical_fov;
     int m_samples_per_pixel;
     int m_img_w;
     int m_img_h;

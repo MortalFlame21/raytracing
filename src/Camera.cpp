@@ -3,11 +3,13 @@
 #include "Interval.h"
 #include "Material.h"
 #include "Util.h"
+#include "Vec3.h"
 
-Camera::Camera() : Camera(1.0, 100, 10, 10) {}
+Camera::Camera() : Camera(1.0, 100, 10, 10, 90) {}
 
-Camera::Camera(double aspect_ratio, int img_w, int samples_per_pixel, int max_depth)
-    : m_aspect_ratio{aspect_ratio}, m_pixel_samples_scale{},
+Camera::Camera(double aspect_ratio, int img_w, int samples_per_pixel, int max_depth,
+               double vertical_fov)
+    : m_aspect_ratio{aspect_ratio}, m_pixel_samples_scale{}, m_vertical_fov{vertical_fov},
       m_samples_per_pixel{samples_per_pixel}, m_img_w{img_w}, m_img_h{},
       m_max_depth{max_depth}, m_center{}, m_pixel00_loc{}, m_pixel_delta_u{},
       m_pixel_delta_v{} {
@@ -40,7 +42,9 @@ void Camera::initialise() {
     m_pixel_samples_scale = 1.0 / m_samples_per_pixel;
 
     auto focal_length{1.0};
-    auto viewport_h{2.0};
+    auto theta{degrees_to_radians(m_vertical_fov)};
+    auto h{std::tan(theta / 2)};
+    auto viewport_h{2 * h * focal_length};
     auto viewport_w{viewport_h * (static_cast<double>(m_img_w) / m_img_h)};
 
     Vec3 viewport_u(viewport_w, 0, 0);
