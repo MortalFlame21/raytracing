@@ -11,7 +11,7 @@ public:
     Vec3();
     Vec3(double x, double y, double z);
 
-    static Vec3 gen_random(int min, int max);
+    static Vec3 gen_random(double min, double max);
     static Vec3 gen_random();
 
     double& x();

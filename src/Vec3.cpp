@@ -7,7 +7,7 @@ Vec3::Vec3() : m_e{{}} {}
 
 Vec3::Vec3(double x, double y, double z) : m_e{{x, y, z}} {}
 
-Vec3 Vec3::gen_random(int min, int max) {
+Vec3 Vec3::gen_random(double min, double max) {
     return Vec3(gen_random_double(min, max), gen_random_double(min, max),
                 gen_random_double(min, max));
 }
