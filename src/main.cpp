@@ -23,14 +23,12 @@ const auto material_2{std::make_shared<Lambertian>(Color(0.4, 0.2, 0.1))};
 const auto material_3{std::make_shared<Metal>(Color(0.7, 0.6, 0.5), 0.0)};
 
 int main(int argc, char *argv[]) {
-    if (argc != 3) {
-        std::cerr
-            << "USAGE: ./rt.out <IMAGE_WIDTH> <NUMBER_SPHERES> > <IMAGE_LOCATION.ppm>\n";
+    if (argc != 2) {
+        std::cerr << "USAGE: ./rt.out <IMAGE_WIDTH> > <IMAGE_LOCATION.ppm>\n";
         return EXIT_FAILURE;
     }
 
     g_WIDTH = (std::stoi(argv[1]) > 400) ? std::stoi(argv[1]) : g_WIDTH;
-    int num_spheres{(std::stoi(argv[2]) < 0) ? 2 : 11};
 
     // world
     HittableList world(
@@ -39,28 +37,28 @@ int main(int argc, char *argv[]) {
          std::make_shared<Sphere>(Vec3(-4.0, 1.0, 0.0), 1.0, material_2),
          std::make_shared<Sphere>(Vec3(4.0, 1.0, 0.0), 1.0, material_3)});
 
-    for (int i{-11}; i < num_spheres; ++i) {
-        for (int j{-11}; j < num_spheres; ++j) {
+    for (int i{-5}; i < 5; ++i) {
+        for (int j{-5}; j < 5; ++j) {
             auto choose_mat{gen_random_double()};
-            Vec3 center(i + 0.9 * gen_random_double(), 0.2,
-                        j + 0.9 * gen_random_double());
+            Vec3 pos(i + gen_random_double(0.0, 0.9), 0.2,
+                     j + gen_random_double(0.0, 0.9));
 
-            if (((center - Vec3(4.0, 0.2, 0.0)).length() > 0.9)) {
+            if (((pos - Vec3(4.0, 0.2, 0.0)).length() > 0.9)) {
                 std::shared_ptr<Material> mat{};
-                auto r{gen_random_double(0.2, 0.5)};
+                auto r{gen_random_double(0.2, 0.7)};
 
-                if (choose_mat < 0.8) {
-                    auto albedo = Color::gen_random() * Color::gen_random();
+                if (choose_mat < 0.33) {
+                    auto albedo{Color::gen_random() * Color::gen_random()};
                     mat = std::make_shared<Lambertian>(albedo);
-                    world.push_back(std::make_shared<Sphere>(center, r, mat));
-                } else if (choose_mat < 0.95) {
+                    world.push_back(std::make_shared<Sphere>(pos, r, mat));
+                } else if (choose_mat < 0.66) {
                     auto albedo{Color::gen_random(0.5, 1.0)};
                     auto fuzz{gen_random_double(0, 0.5)};
                     mat = std::make_shared<Metal>(albedo, fuzz);
-                    world.push_back(std::make_shared<Sphere>(center, r, mat));
+                    world.push_back(std::make_shared<Sphere>(pos, r, mat));
                 } else {
                     mat = std::make_shared<Dielectric>(1.5);
-                    world.push_back(std::make_shared<Sphere>(center, r, mat));
+                    world.push_back(std::make_shared<Sphere>(pos, r, mat));
                 }
             }
         }
