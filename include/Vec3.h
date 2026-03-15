@@ -4,6 +4,8 @@
 #include <cmath>
 #include <iostream>
 
+#include "Util.h"
+
 class Vec3 {
 public:
     Vec3();
